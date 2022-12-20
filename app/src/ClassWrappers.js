@@ -213,6 +213,45 @@ class User {
     }
     return statements;
   }
+
+  getEditUser(oldUser) {
+    let statements = [];
+    if (this.username.val != "") {
+      statements.push(
+        `UPDATE
+            person
+         SET
+            USERNAME = "${this.username}"
+         WHERE
+            USERNAME = "${oldUser.username.val}";`
+      );
+      statements.push(
+        `UPDATE
+            myuser
+         SET
+            USERNAME = "${this.username}"
+         WHERE
+            USERNAME = "${oldUser.username.val}";`
+      );
+    }
+    let str = `UPDATE person SET`;
+    for (const [key, value] of Object.entries(this)) {
+      str += key + " = ";
+      str += getSafe(StatementGenerateStrings, value.dtype)[0];
+      if (value.dtype == "Pic") {
+        var buf = Buffer.from("" + value.val);
+        str += buf;
+      } else {
+        str += value.val;
+      }
+      str += getSafe(StatementGenerateStrings, value.dtype)[1];
+    }
+    str = str.slice(0, -2);
+    str += `
+    WHERE
+      USERNAME = "${oldUser.username.val}"`;
+    statements.push(str);
+  }
 }
 
 class Phone {

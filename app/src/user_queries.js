@@ -93,6 +93,16 @@ async function remove_user(user, res) {
   res.send(res_list);
 }
 
+async function edit_user(oldUser, newUser, newPhones, res) {
+  let res_list = [];
+  const conn = mysql.createConnection(dbConfig);
+  // Code goes here
+  if (DEBUG) {
+    console.trace(res_list);
+  }
+  res.send(res_list);
+}
+
 module.exports = {
   add_user: add_user,
   remove_user: remove_user,
