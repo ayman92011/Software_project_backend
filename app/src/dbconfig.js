@@ -3,7 +3,7 @@ const DEBUG = require("./Debug").DEBUG;
 module.exports = {
   host: "localhost",
   port: "3306",
-  database: "software_project",
+  database: "SOFTWARE_PROJECT",
   user: "root",
   password: "root",
 };
