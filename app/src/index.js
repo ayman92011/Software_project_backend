@@ -64,7 +64,9 @@ app.get("/edit_user", (req, res) => {
     req.query["old_username"]
   );
   newUser = new ClassWrappers.User(
-    req.query["new_username"] == undefined ? "" : req.query["new_username"],
+    req.query["new_username"] == undefined
+      ? req.query["old_username"]
+      : req.query["new_username"],
     req.query["new_email"] == undefined ? "" : req.query["new_email"],
     req.query["new_password"] == undefined ? "" : req.query["new_password"],
     req.query["new_gender"] == undefined ? "" : req.query["new_gender"],

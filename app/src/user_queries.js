@@ -68,7 +68,12 @@ async function get_person(user, res) {
   } else {
     res1 = res1[0];
   }
-  res1["is_user"] = Object.keys(res2[0][0]).length > 0;
+  // if (res2[0][0] != undefined) {
+  //   res2 = res2[0][0];
+  // } else {
+  //   res2 = res2[0];
+  // }
+  res1["is_user"] = res2.length > 0;
   if (DEBUG) {
     console.trace(res1);
   }
@@ -96,7 +101,10 @@ async function remove_user(user, res) {
 async function edit_user(oldUser, newUser, newPhones, res) {
   let res_list = [];
   const conn = mysql.createConnection(dbConfig);
-  // Code goes here
+  for (const statement of newUser.getEditUser(oldUser)) {
+    let result = await conn.promise().execute(statement);
+    res_list.push(result[0].affectedRows);
+  }
   if (DEBUG) {
     console.trace(res_list);
   }
@@ -107,5 +115,5 @@ module.exports = {
   add_user: add_user,
   remove_user: remove_user,
   get_person: get_person,
-  edit_user: {},
+  edit_user: edit_user,
 };
